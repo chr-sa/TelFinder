@@ -14,7 +14,6 @@ def GetChrEnd(len0, end, species, fasta_file, dir1):
         fas = SeqIO.parse(handle, "fasta")
         for k1 in fas:
             id1 = k1.id
-            # print(id1)
             seq = str(k1.seq).upper()
             seq = seq.strip("N")
             if info1 == []:
@@ -112,7 +111,6 @@ def count_kmer(kmer_list, kmer_dict):
                         break
                 match.append(out)
             if "same" not in match:
-                # print('add ' + k1)
                 kmer_repeat[i1] = count1[i1]
     for i1 in kmer_repeat:
         kmer_site[i1] = []
@@ -136,9 +134,7 @@ def count_kmer(kmer_list, kmer_dict):
 
 
 #########################
-def kmer_info(
-    kmer_size, kmer_site, kmer_repeat, component_dc, gap_dis_dc, gap_base_dc, seq1
-):
+def kmer_info(kmer_size, kmer_site, kmer_repeat, component_dc, gap_dis_dc, gap_base_dc, seq1):
     for k1 in kmer_repeat:
         component_dc[k1] = [kmer_repeat[k1], 0]
         # repeat time, gap number
@@ -188,7 +184,6 @@ def chrKmerFind(seq1, kmer_start, kmer_end):
     gap_dis_dc = {}
     gap_base_dc = {}
     for kmer_size in range(kmer_start, kmer_end):
-        # print(kmer_size)
         kmer_list = split_dna(seq1, kmer_size)
         site_list1, kmer_list1, kmer_dict1 = rm1base(kmer_list)
         kmer_repeat, kmer_site = count_kmer(kmer_list1, kmer_dict1)
