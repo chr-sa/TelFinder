@@ -10,23 +10,27 @@ def GetChrEnd(len0, end, species, fasta_file, dir1):
     which = ["left", "right"]
     index = which.index(end)
     info1 = []
-    with gzip.open(fasta_file, "rt") as handle:
-        fas = SeqIO.parse(handle, "fasta")
-        for k1 in fas:
-            id1 = k1.id
-            seq = str(k1.seq).upper()
-            seq = seq.strip("N")
-            if info1 == []:
-                info1.append(id1[:2])
-            if id1[:2] == info1[0] or len(id1) <= 2:
-                if index == 0:
-                    chrEndSeq[k1.id] = seq[:len0].upper()
-                if index == 1:
-                    chrEndSeq[k1.id] = seq[-(len0):].upper()
-        h1 = open(os.path.join(dir1, "_".join([species, end]) + ".fasta"), "w+")
-        for k1 in chrEndSeq:
-            h1.write(">" + k1 + "\n" + chrEndSeq[k1] + "\n")
-        h1.close()
+    if fasta_file[:-3] == ".gz":
+        handle = gzip.open(fasta_file, "rt")
+    else:
+        handle = open(fasta_file, "r")
+    fas = SeqIO.parse(handle, "fasta")
+    for k1 in fas:
+        id1 = k1.id
+        seq = str(k1.seq).upper()
+        seq = seq.strip("N")
+        if info1 == []:
+            info1.append(id1[:2])
+        if id1[:2] == info1[0] or len(id1) <= 2:
+            if index == 0:
+                chrEndSeq[k1.id] = seq[:len0].upper()
+            if index == 1:
+                chrEndSeq[k1.id] = seq[-(len0):].upper()
+    h1 = open(os.path.join(dir1, "_".join([species, end]) + ".fasta"), "w+")
+    for k1 in chrEndSeq:
+        h1.write(">" + k1 + "\n" + chrEndSeq[k1] + "\n")
+    h1.close()
+    handle.close()
     return chrEndSeq
 
 
