@@ -10,7 +10,7 @@ def GetChrEnd(len0, end, species, fasta_file, dir1):
     which = ["left", "right"]
     index = which.index(end)
     info1 = []
-    if fasta_file[:-3] == ".gz":
+    if fasta_file[-3:] == ".gz":
         handle = gzip.open(fasta_file, "rt")
     else:
         handle = open(fasta_file, "r")
